@@ -2,8 +2,22 @@ const Course = require('../models/courseModel');
 
 exports.getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.find();
+    // BUILD QUERY
+    // 1) Filtering
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
 
+    // 2) Advanced Filtrering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+
+    const query = Course.find(JSON.parse(queryStr));
+
+    // EXEXCUTE QUERY
+    const courses = await query;
+
+    // SEND RESPONSE
     res.status(200).json({
       status: 'success',
       results: courses.length,
