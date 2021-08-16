@@ -4,6 +4,10 @@ const courseController = require('../controllers/courseController');
 const router = express.Router();
 
 router
+  .route('/top-5-cheap')
+  .get(courseController.aliasTopCourses, courseController.getAllCourses);
+
+router
   .route('/')
   .get(courseController.getAllCourses)
   .post(courseController.createCourse);
