@@ -8,6 +8,7 @@ router
   .get(courseController.aliasTopCourses, courseController.getAllCourses);
 
 router.route('/course-stats').get(courseController.getCourseStats);
+router.route('/monthly-plan/:year').get(courseController.getMonthlyPlan);
 
 router
   .route('/')
